@@ -243,8 +243,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text);
 
 <!-- PROPERTY -->
 <div id="property" class="section">
-  <div class="sec-title" id="t-property-title">The Property</div>
-  <div class="sec-line"></div>
 
 <div class="prop-nav" id="prop-nav">
   <button class="prop-nav-btn active" onclick="propScroll('prop-relax')" id="pnav-relax">🔥 Relax</button>
@@ -263,11 +261,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text);
     <div class="card-label" id="t-pellet-label">Wood-pellet burner</div>
     <div class="card-value" id="t-pellet-text">The burner is straightforward to use. Pellets are stored in the bag to the right of the burner. Fill the hopper at the top, select your desired heat level on the control panel, and press the power button. It will self-ignite within a few minutes. To turn off, press the power button — it will run a cool-down cycle before stopping fully. Please do not leave the burner unattended when the pellet level is very low.</div>
   </div>
-  <div class="card" style="padding:0;overflow:hidden;">
-    <div style="padding:14px 18px 10px;">
-      <div class="card-label" id="t-pellet-manual-label">Wood burner manual</div>
+  <div class="video-placeholder" onclick="openPdfDrawer()" style="cursor:pointer;margin-bottom:0;">
+    <div class="video-icon" style="font-size:20px;display:flex;align-items:center;justify-content:center;">📄</div>
+    <div class="video-text-wrap">
+      <div class="video-title" id="t-pellet-manual-label">Wood burner manual</div>
+      <div class="video-sub" id="t-pdf-tap">Tap to open</div>
     </div>
-    <iframe src="FICHES_MAISON.pdf" style="width:100%;height:420px;border:none;display:block;"></iframe>
   </div>
   <div class="video-placeholder" onclick="openVideoDrawer('pellet-use')" style="cursor:pointer;">
     <div class="video-icon"><div class="video-play"></div></div>
@@ -390,71 +389,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text);
     </div>
   </div>
 
-  <!-- Video Drawer -->
-  <div id="video-drawer-overlay" onclick="closeVideoDrawer()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;transition:opacity 0.3s;"></div>
-  <div id="video-drawer" style="display:none;position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:480px;background:#fff;border-radius:20px 20px 0 0;z-index:1001;transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);padding:0 0 32px;">
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;">
-      <span id="video-drawer-title" style="font-size:14px;font-weight:500;color:var(--text);"></span>
-      <button onclick="closeVideoDrawer()" style="background:var(--sand-dark);border:none;border-radius:50%;width:28px;height:28px;font-size:16px;line-height:1;cursor:pointer;color:var(--text-mid);display:flex;align-items:center;justify-content:center;">✕</button>
-    </div>
-    <div style="width:36px;height:4px;background:var(--sand-dark);border-radius:2px;margin:0 auto 16px;"></div>
-    <video id="jacuzzi-video" controls playsinline style="width:100%;max-height:70vh;background:#000;">
-      <source id="jacuzzi-video-src" src="" type="video/mp4">
-    </video>
-  </div>
-
-  <script>
-    var videoSrcs={
-      'jacuzzi':'jacuzzi.mp4',
-      'troubleshooting':'jacuzzi-troubleshooting.mp4',
-      'pellet-use':'pellet-use.mp4',
-      'pellet-clean':'poele-entretien.mp4'
-    };
-    var videoTitleIds={
-      'jacuzzi':'t-vid-jacuzzi',
-      'troubleshooting':'t-vid-jacuzzi-trouble',
-      'pellet-use':'t-vid-pellet',
-      'pellet-clean':'t-vid-pellet-clean'
-    };
-    function openVideoDrawer(which){
-      var overlay=document.getElementById('video-drawer-overlay');
-      var drawer=document.getElementById('video-drawer');
-      var vid=document.getElementById('jacuzzi-video');
-      var src=document.getElementById('jacuzzi-video-src');
-      var titleEl=document.getElementById('video-drawer-title');
-      var srcTitleEl=document.getElementById(videoTitleIds[which]);
-      titleEl.textContent=srcTitleEl ? srcTitleEl.textContent : '';
-      src.src=videoSrcs[which];
-      vid.load();
-      overlay.style.display='block';
-      overlay.style.opacity='0';
-      drawer.style.display='block';
-      requestAnimationFrame(function(){
-        requestAnimationFrame(function(){
-          drawer.style.transform='translateX(-50%) translateY(0)';
-          overlay.style.opacity='1';
-        });
-      });
-    }
-    function closeVideoDrawer(){
-      var overlay=document.getElementById('video-drawer-overlay');
-      var drawer=document.getElementById('video-drawer');
-      drawer.style.transform='translateX(-50%) translateY(100%)';
-      overlay.style.opacity='0';
-      var vid=document.getElementById('jacuzzi-video');
-      if(vid) vid.pause();
-      setTimeout(function(){
-        drawer.style.display='none';
-        overlay.style.display='none';
-      },350);
-    }
-  function propScroll(id) {
-  document.querySelectorAll('.prop-nav-btn').forEach(b => b.classList.remove('active'));
-  const map = {'prop-relax':'pnav-relax','prop-eat':'pnav-eat','prop-sleep':'pnav-sleep','prop-wash':'pnav-wash'};
-  const btn = document.getElementById(map[id]);
-  if(btn) btn.classList.add('active');
-  const el = document.getElementById(id);
-  if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
 
 // Sticky subnav — context buttons per tab
 const stickySubnavs = {
@@ -771,7 +705,7 @@ const translations = {
     'bnav-welcome':'Welcome','bnav-property':'Home','bnav-spa':'Spa','bnav-rules':'Rules','bnav-local':'Local',
     't-concierge':'Concierge',
     'pnav-relax':'🔥 Relax','pnav-eat':'🍽️ Eat','pnav-sleep':'🛏️ Sleep','pnav-wash':'🧺 Wash',
-    't-pellet-manual-label':'Wood burner manual',
+    't-pellet-manual-label':'Wood burner manual','t-pdf-tap':'Tap to open','t-pellet-manual-drawer':'Wood burner manual',
     'search-placeholder':'Search the guide...'
   },
   fr: {
@@ -869,7 +803,7 @@ const translations = {
     'bnav-welcome':'Bienvenue','bnav-property':'La Maison','bnav-spa':'Spa','bnav-rules':'Règles','bnav-local':'Village',
     't-concierge':'Conciergerie',
     'pnav-relax':'🔥 Détente','pnav-eat':'🍽️ Cuisine','pnav-sleep':'🛏️ Chambres','pnav-wash':'🧺 Laver',
-    't-pellet-manual-label':'Manuel du poêle à granulés',
+    't-pellet-manual-label':'Manuel du poêle à granulés','t-pdf-tap':'Appuyer pour ouvrir','t-pellet-manual-drawer':'Manuel du poêle à granulés',
     'search-placeholder':'Rechercher dans le guide...'
   }
 };
@@ -967,6 +901,30 @@ function doSearch(query) {
   resultsEl.style.display = 'block';
 }
 </script>
+
+<!-- Global Drawers — outside all sections so they work from any tab -->
+<div id="video-drawer-overlay" onclick="closeVideoDrawer()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;transition:opacity 0.3s;"></div>
+<div id="video-drawer" style="display:none;position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:480px;background:#fff;border-radius:20px 20px 0 0;z-index:1001;transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);padding:0 0 32px;">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;">
+    <span id="video-drawer-title" style="font-size:14px;font-weight:500;color:var(--text);"></span>
+    <button onclick="closeVideoDrawer()" style="background:var(--sand-dark);border:none;border-radius:50%;width:28px;height:28px;font-size:16px;line-height:1;cursor:pointer;color:var(--text-mid);display:flex;align-items:center;justify-content:center;">✕</button>
+  </div>
+  <div style="width:36px;height:4px;background:var(--sand-dark);border-radius:2px;margin:0 auto 16px;"></div>
+  <video id="jacuzzi-video" controls playsinline style="width:100%;max-height:70vh;background:#000;">
+    <source id="jacuzzi-video-src" src="" type="video/mp4">
+  </video>
+</div>
+
+<div id="pdf-drawer-overlay" onclick="closePdfDrawer()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;transition:opacity 0.3s;"></div>
+<div id="pdf-drawer" style="display:none;position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:480px;background:#fff;border-radius:20px 20px 0 0;z-index:1001;transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);padding:0 0 0;">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;">
+    <span style="font-size:14px;font-weight:500;color:var(--text);" id="t-pellet-manual-drawer">Wood burner manual</span>
+    <button onclick="closePdfDrawer()" style="background:var(--sand-dark);border:none;border-radius:50%;width:28px;height:28px;font-size:16px;line-height:1;cursor:pointer;color:var(--text-mid);display:flex;align-items:center;justify-content:center;">✕</button>
+  </div>
+  <div style="width:36px;height:4px;background:var(--sand-dark);border-radius:2px;margin:0 auto 12px;"></div>
+  <iframe src="FICHES_MAISON.pdf" style="width:100%;height:75vh;border:none;display:block;border-radius:0 0 20px 20px;"></iframe>
+</div>
+
 <nav class="bottom-nav" id="bottom-nav">
   <button class="bnav-btn active" onclick="showTab('welcome')" data-tab="welcome">
     <span class="bnav-icon">🏡</span>
@@ -989,5 +947,82 @@ function doSearch(query) {
     <span class="bnav-label" id="bnav-local">Local</span>
   </button>
 </nav>
+<script>
+  var videoSrcs={
+    'jacuzzi':'jacuzzi.mp4',
+    'troubleshooting':'jacuzzi-troubleshooting.mp4',
+    'pellet-use':'pellet-use.mp4',
+    'pellet-clean':'poele-entretien.mp4'
+  };
+  var videoTitleIds={
+    'jacuzzi':'t-vid-jacuzzi',
+    'troubleshooting':'t-vid-jacuzzi-trouble',
+    'pellet-use':'t-vid-pellet',
+    'pellet-clean':'t-vid-pellet-clean'
+  };
+  function openVideoDrawer(which){
+    var overlay=document.getElementById('video-drawer-overlay');
+    var drawer=document.getElementById('video-drawer');
+    var vid=document.getElementById('jacuzzi-video');
+    var src=document.getElementById('jacuzzi-video-src');
+    var titleEl=document.getElementById('video-drawer-title');
+    var srcTitleEl=document.getElementById(videoTitleIds[which]);
+    titleEl.textContent=srcTitleEl ? srcTitleEl.textContent : '';
+    src.src=videoSrcs[which];
+    vid.load();
+    overlay.style.display='block';
+    overlay.style.opacity='0';
+    drawer.style.display='block';
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        drawer.style.transform='translateX(-50%) translateY(0)';
+        overlay.style.opacity='1';
+      });
+    });
+  }
+  function closeVideoDrawer(){
+    var overlay=document.getElementById('video-drawer-overlay');
+    var drawer=document.getElementById('video-drawer');
+    drawer.style.transform='translateX(-50%) translateY(100%)';
+    overlay.style.opacity='0';
+    var vid=document.getElementById('jacuzzi-video');
+    if(vid) vid.pause();
+    setTimeout(function(){
+      drawer.style.display='none';
+      overlay.style.display='none';
+    },350);
+  }
+  function openPdfDrawer(){
+    var overlay=document.getElementById('pdf-drawer-overlay');
+    var drawer=document.getElementById('pdf-drawer');
+    overlay.style.display='block';
+    overlay.style.opacity='0';
+    drawer.style.display='block';
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        drawer.style.transform='translateX(-50%) translateY(0)';
+        overlay.style.opacity='1';
+      });
+    });
+  }
+  function closePdfDrawer(){
+    var overlay=document.getElementById('pdf-drawer-overlay');
+    var drawer=document.getElementById('pdf-drawer');
+    drawer.style.transform='translateX(-50%) translateY(100%)';
+    overlay.style.opacity='0';
+    setTimeout(function(){
+      drawer.style.display='none';
+      overlay.style.display='none';
+    },350);
+  }
+  function propScroll(id) {
+    document.querySelectorAll('.prop-nav-btn').forEach(b => b.classList.remove('active'));
+    const map = {'prop-relax':'pnav-relax','prop-eat':'pnav-eat','prop-sleep':'pnav-sleep','prop-wash':'pnav-wash'};
+    const btn = document.getElementById(map[id]);
+    if(btn) btn.classList.add('active');
+    const el = document.getElementById(id);
+    if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+</script>
 </body>
 </html>
