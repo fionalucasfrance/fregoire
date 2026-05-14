@@ -384,35 +384,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text);
   </div>
 
 
-// Sticky subnav — context buttons per tab
-const stickySubnavs = {
-  welcome: [
-    {label:'👥 Contacts', target:'w-contacts'},
-    {label:'📶 WiFi', target:'w-wifi'},
-    {label:'🗓️ Check-in', target:'w-checkin'},
-    {label:'🔑 Keys', target:'w-keys'}
-  ],
-  property: [
-    {label:'🔥 Relax', target:'prop-relax'},
-    {label:'🍽️ Eat', target:'prop-eat'},
-    {label:'🛏️ Sleep', target:'prop-sleep'},
-    {label:'🧺 Wash', target:'prop-wash'}
-  ],
-  spa: [],
-  rules: [],
-  village: [],
-  departure: []
-};
-
-function updateStickySubnav(tabId) {
-  const subnav = document.getElementById('sticky-subnav');
-  if (!subnav) return;
-  const items = stickySubnavs[tabId] || [];
-  subnav.innerHTML = items.map(item =>
-    `<button onclick="document.getElementById('${item.target}').scrollIntoView({behavior:'smooth'})">${item.label}</button>`
-  ).join('');
-}
-
   <div class="sub-title" id="t-jacuzzi-rules">Jacuzzi rules</div>
   <div class="rule"><div class="rule-dot"></div><div id="t-spa1">Maximum 6 people</div></div>
   <div class="rule"><div class="rule-dot"></div><div id="t-spa2">Not intended children</div></div>
@@ -1013,6 +984,37 @@ function doSearch(query) {
     const el = document.getElementById(id);
     if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
   }
+
+// Sticky subnav — context buttons per tab
+const stickySubnavs = {
+  welcome: [
+    {label:'👥 Contacts', target:'w-contacts'},
+    {label:'📶 WiFi', target:'w-wifi'},
+    {label:'🗓️ Check-in', target:'w-checkin'},
+    {label:'🔑 Keys', target:'w-keys'}
+  ],
+  property: [
+    {label:'🔥 Relax', target:'prop-relax'},
+    {label:'🍽️ Eat', target:'prop-eat'},
+    {label:'🛏️ Sleep', target:'prop-sleep'},
+    {label:'🧺 Wash', target:'prop-wash'}
+  ],
+  spa: [],
+  rules: [],
+  village: [],
+  departure: []
+};
+
+function updateStickySubnav(tabId) {
+  const subnav = document.getElementById('sticky-subnav');
+  if (!subnav) return;
+  const items = stickySubnavs[tabId] || [];
+  subnav.innerHTML = items.map(item =>
+    `<button onclick="document.getElementById('${item.target}').scrollIntoView({behavior:'smooth'})">${item.label}</button>`
+  ).join('');
+}
+
+
 </script>
 </body>
 </html>
