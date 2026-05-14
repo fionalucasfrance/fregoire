@@ -32,9 +32,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text);
 .nav::-webkit-scrollbar{display:none;}
 .nav-btn{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;white-space:nowrap;padding:14px 12px 12px;border:none;border-bottom:2px solid transparent;background:transparent;color:var(--text-light);cursor:pointer;transition:all 0.2s;}
 .nav-btn.active{color:var(--ocean);border-bottom-color:var(--ocean);font-weight:500;}
-.search-bar{padding:12px 20px;background:var(--white);border-bottom:1px solid var(--sand-dark);}
-.search-bar input{width:100%;padding:10px 12px 10px 36px;border:1px solid var(--sand-dark);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);background:var(--sand);outline:none;}
-.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--text-light);}
 .section{display:none;padding:28px 20px 90px;}
 .section.active{display:block;}
 .sec-title{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;color:var(--ocean);margin-bottom:6px;letter-spacing:0.02em;}
@@ -139,16 +136,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text);
 
 
 
-<div class="search-bar">
-  <div style="position:relative;">
-    <span class="search-icon">🔍</span>
-    <input type="text" id="search-input" oninput="doSearch(this.value)">
-  </div>
-  <div id="search-results" style="display:none;margin-top:8px;"></div>
-</div>
 
 <!-- WELCOME -->
 <div id="welcome" class="section active">
+  <div style="position:relative;margin-bottom:20px;">
+    <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--text-light);">🔍</span>
+    <input type="text" id="search-input" oninput="doSearch(this.value)" style="width:100%;padding:10px 12px 10px 36px;border:1px solid var(--sand-dark);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);background:var(--sand);outline:none;" id="search-input">
+  </div>
+  <div id="search-results" style="display:none;margin:-12px 0 16px;"></div>
   <div style="padding:4px 0 20px;font-size:15px;color:var(--text-mid);line-height:1.65;font-style:italic;" id="t-welcome-text">We hope you have a wonderful stay and leave with beautiful memories. Make yourselves at home — we're just a message away if you need anything. 🌊</div>
   <div style="display:flex;flex-wrap:wrap;gap:8px;margin:0 0 20px;">
     <button onclick="document.getElementById('w-contacts').scrollIntoView({behavior:'smooth'})" style="font-family:'DM Sans',sans-serif;font-size:12px;padding:7px 16px;border-radius:20px;border:1.5px solid var(--sand-dark);background:var(--sand);color:var(--text-mid);cursor:pointer;" id="blob-contacts">👥 Contacts</button>
@@ -833,37 +828,46 @@ function doSearch(query) {
   const q = query.toLowerCase();
   const t = translations[currentLang];
   const tabIds = ['welcome','property','spa','rules','village'];
-  const tabNames = t['nav'];
+  const tabNames = t['nav'] || ['Welcome','Home','Spa','Rules','Local'];
   const matches = [];
-  const seen = new Set();
   for (const [id, val] of Object.entries(t)) {
     if (id === 'nav' || id === 'search-placeholder') continue;
     const plain = val.replace(/<[^>]+>/g,'').toLowerCase();
     if (plain.includes(q)) {
+      const el = document.getElementById(id);
+      if (!el) continue;
       const tabIndex = tabIds.findIndex(tid => {
         const section = document.getElementById(tid);
-        const el = document.getElementById(id);
-        return section && el && section.contains(el);
+        return section && section.contains(el);
       });
-      if (tabIndex >= 0 && !seen.has(tabIndex)) {
-        seen.add(tabIndex);
-        const pos = plain.indexOf(q);
-        const snippet = '...' + plain.substring(Math.max(0,pos-30), pos+60).trim() + '...';
-        matches.push({tabId:tabIds[tabIndex], tabName:tabNames[tabIndex], snippet});
-      }
+      if (tabIndex < 0) continue;
+      const pos = plain.indexOf(q);
+      const snippet = '...' + plain.substring(Math.max(0,pos-30), pos+60).trim() + '...';
+      matches.push({tabId:tabIds[tabIndex], tabName:tabNames[tabIndex], snippet, elId:id});
+      if (matches.length >= 6) break;
     }
   }
   if (matches.length === 0) {
     resultsEl.innerHTML = '<div style="font-size:13px;color:var(--text-light);padding:8px 4px">No results found</div>';
   } else {
     resultsEl.innerHTML = matches.map(m =>
-      `<div onclick="showTab('${m.tabId}');document.getElementById('search-input').value='';document.getElementById('search-results').style.display='none';" style="padding:10px 12px;background:var(--sand);border-radius:8px;margin-bottom:6px;cursor:pointer;">
+      `<div onclick="goToResult('${m.tabId}','${m.elId}')" style="padding:10px 12px;background:var(--sand);border-radius:8px;margin-bottom:6px;cursor:pointer;">
         <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ocean-light);margin-bottom:3px;">${m.tabName}</div>
         <div style="font-size:13px;color:var(--text-mid);line-height:1.5;">${m.snippet}</div>
       </div>`
     ).join('');
   }
   resultsEl.style.display = 'block';
+}
+
+function goToResult(tabId, elId) {
+  document.getElementById('search-input').value = '';
+  document.getElementById('search-results').style.display = 'none';
+  showTab(tabId);
+  setTimeout(function() {
+    const el = document.getElementById(elId);
+    if (el) el.scrollIntoView({behavior:'smooth', block:'center'});
+  }, 80);
 }
 
 var videoSrcs={
