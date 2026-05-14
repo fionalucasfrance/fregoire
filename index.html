@@ -861,55 +861,8 @@ function doSearch(query) {
   }
   resultsEl.style.display = 'block';
 }
-</script>
 
-<!-- Global Drawers — outside all sections so they work from any tab -->
-<div id="video-drawer-overlay" onclick="closeVideoDrawer()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;transition:opacity 0.3s;"></div>
-<div id="video-drawer" style="display:none;position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:480px;background:#fff;border-radius:20px 20px 0 0;z-index:1001;transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);padding:0 0 32px;">
-  <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;">
-    <span id="video-drawer-title" style="font-size:14px;font-weight:500;color:var(--text);"></span>
-    <button onclick="closeVideoDrawer()" style="background:var(--sand-dark);border:none;border-radius:50%;width:28px;height:28px;font-size:16px;line-height:1;cursor:pointer;color:var(--text-mid);display:flex;align-items:center;justify-content:center;">✕</button>
-  </div>
-  <div style="width:36px;height:4px;background:var(--sand-dark);border-radius:2px;margin:0 auto 16px;"></div>
-  <video id="jacuzzi-video" controls playsinline style="width:100%;max-height:70vh;background:#000;">
-    <source id="jacuzzi-video-src" src="" type="video/mp4">
-  </video>
-</div>
-
-<div id="pdf-drawer-overlay" onclick="closePdfDrawer()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;transition:opacity 0.3s;"></div>
-<div id="pdf-drawer" style="display:none;position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:480px;background:#fff;border-radius:20px 20px 0 0;z-index:1001;transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);padding:0 0 0;">
-  <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;">
-    <span style="font-size:14px;font-weight:500;color:var(--text);" id="t-pellet-manual-drawer">Wood burner manual</span>
-    <button onclick="closePdfDrawer()" style="background:var(--sand-dark);border:none;border-radius:50%;width:28px;height:28px;font-size:16px;line-height:1;cursor:pointer;color:var(--text-mid);display:flex;align-items:center;justify-content:center;">✕</button>
-  </div>
-  <div style="width:36px;height:4px;background:var(--sand-dark);border-radius:2px;margin:0 auto 12px;"></div>
-  <iframe src="FICHES_MAISON.pdf" style="width:100%;height:75vh;border:none;display:block;border-radius:0 0 20px 20px;"></iframe>
-</div>
-
-<nav class="bottom-nav" id="bottom-nav">
-  <button class="bnav-btn active" onclick="showTab('welcome')" data-tab="welcome">
-    <span class="bnav-icon">🏡</span>
-    <span class="bnav-label" id="bnav-welcome">Welcome</span>
-  </button>
-  <button class="bnav-btn" onclick="showTab('property')" data-tab="property">
-    <span class="bnav-icon">🛋️</span>
-    <span class="bnav-label" id="bnav-property">Home</span>
-  </button>
-  <button class="bnav-btn" onclick="showTab('spa')" data-tab="spa">
-    <span class="bnav-icon">🌊</span>
-    <span class="bnav-label" id="bnav-spa">Spa</span>
-  </button>
-  <button class="bnav-btn" onclick="showTab('rules')" data-tab="rules">
-    <span class="bnav-icon">📋</span>
-    <span class="bnav-label" id="bnav-rules">Rules</span>
-  </button>
-  <button class="bnav-btn" onclick="showTab('village')" data-tab="village">
-    <span class="bnav-icon">📍</span>
-    <span class="bnav-label" id="bnav-local">Local</span>
-  </button>
-</nav>
-<script>
-  var videoSrcs={
+var videoSrcs={
     'jacuzzi':'jacuzzi.mp4',
     'troubleshooting':'jacuzzi-troubleshooting.mp4',
     'pellet-use':'pellet-use.mp4',
@@ -1013,8 +966,51 @@ function updateStickySubnav(tabId) {
     `<button onclick="document.getElementById('${item.target}').scrollIntoView({behavior:'smooth'})">${item.label}</button>`
   ).join('');
 }
-
-
 </script>
-</body>
+
+<!-- Global Drawers — outside all sections so they work from any tab -->
+<div id="video-drawer-overlay" onclick="closeVideoDrawer()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;transition:opacity 0.3s;"></div>
+<div id="video-drawer" style="display:none;position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:480px;background:#fff;border-radius:20px 20px 0 0;z-index:1001;transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);padding:0 0 32px;">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;">
+    <span id="video-drawer-title" style="font-size:14px;font-weight:500;color:var(--text);"></span>
+    <button onclick="closeVideoDrawer()" style="background:var(--sand-dark);border:none;border-radius:50%;width:28px;height:28px;font-size:16px;line-height:1;cursor:pointer;color:var(--text-mid);display:flex;align-items:center;justify-content:center;">✕</button>
+  </div>
+  <div style="width:36px;height:4px;background:var(--sand-dark);border-radius:2px;margin:0 auto 16px;"></div>
+  <video id="jacuzzi-video" controls playsinline style="width:100%;max-height:70vh;background:#000;">
+    <source id="jacuzzi-video-src" src="" type="video/mp4">
+  </video>
+</div>
+
+<div id="pdf-drawer-overlay" onclick="closePdfDrawer()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;transition:opacity 0.3s;"></div>
+<div id="pdf-drawer" style="display:none;position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:480px;background:#fff;border-radius:20px 20px 0 0;z-index:1001;transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);padding:0 0 0;">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;">
+    <span style="font-size:14px;font-weight:500;color:var(--text);" id="t-pellet-manual-drawer">Wood burner manual</span>
+    <button onclick="closePdfDrawer()" style="background:var(--sand-dark);border:none;border-radius:50%;width:28px;height:28px;font-size:16px;line-height:1;cursor:pointer;color:var(--text-mid);display:flex;align-items:center;justify-content:center;">✕</button>
+  </div>
+  <div style="width:36px;height:4px;background:var(--sand-dark);border-radius:2px;margin:0 auto 12px;"></div>
+  <iframe src="FICHES_MAISON.pdf" style="width:100%;height:75vh;border:none;display:block;border-radius:0 0 20px 20px;"></iframe>
+</div>
+
+<nav class="bottom-nav" id="bottom-nav">
+  <button class="bnav-btn active" onclick="showTab('welcome')" data-tab="welcome">
+    <span class="bnav-icon">🏡</span>
+    <span class="bnav-label" id="bnav-welcome">Welcome</span>
+  </button>
+  <button class="bnav-btn" onclick="showTab('property')" data-tab="property">
+    <span class="bnav-icon">🛋️</span>
+    <span class="bnav-label" id="bnav-property">Home</span>
+  </button>
+  <button class="bnav-btn" onclick="showTab('spa')" data-tab="spa">
+    <span class="bnav-icon">🌊</span>
+    <span class="bnav-label" id="bnav-spa">Spa</span>
+  </button>
+  <button class="bnav-btn" onclick="showTab('rules')" data-tab="rules">
+    <span class="bnav-icon">📋</span>
+    <span class="bnav-label" id="bnav-rules">Rules</span>
+  </button>
+  <button class="bnav-btn" onclick="showTab('village')" data-tab="village">
+    <span class="bnav-icon">📍</span>
+    <span class="bnav-label" id="bnav-local">Local</span>
+  </button>
+</nav></body>
 </html>
