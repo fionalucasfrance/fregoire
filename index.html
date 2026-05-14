@@ -331,11 +331,19 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text);
   <div class="sec-line"></div>
   <div class="highlight" id="t-spa-intro">The spa is accessed via the <strong>wooden walkway to the rear</strong>. The key hangs in the kitchen above the island countertop. Please keep it inside the property and lock the spa when not in use — especially important for the safety of children.</div>
 
-  <div class="video-placeholder" onclick="openVideoDrawer()" style="cursor:pointer;">
+  <div class="video-placeholder" onclick="openVideoDrawer('jacuzzi')" style="cursor:pointer;">
     <div class="video-icon"><div class="video-play"></div></div>
     <div class="video-text-wrap">
       <div class="video-title" id="t-vid-jacuzzi">How to use the jacuzzi</div>
-      <div class="video-sub">Tap to watch</div>
+      <div class="video-sub" id="t-vid-tap">Tap to watch</div>
+    </div>
+  </div>
+
+  <div class="video-placeholder" onclick="openVideoDrawer('troubleshooting')" style="cursor:pointer;margin-top:10px;">
+    <div class="video-icon"><div class="video-play"></div></div>
+    <div class="video-text-wrap">
+      <div class="video-title" id="t-vid-jacuzzi-trouble">Troubleshooting the jacuzzi</div>
+      <div class="video-sub" id="t-vid-tap-2">Tap to watch</div>
     </div>
   </div>
 
@@ -343,20 +351,36 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text);
   <div id="video-drawer-overlay" onclick="closeVideoDrawer()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;transition:opacity 0.3s;"></div>
   <div id="video-drawer" style="display:none;position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:480px;background:#fff;border-radius:20px 20px 0 0;z-index:1001;transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);padding:0 0 32px;">
     <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;">
-      <span style="font-size:14px;font-weight:500;color:var(--text);" id="t-vid-jacuzzi-drawer">How to use the jacuzzi</span>
+      <span id="video-drawer-title" style="font-size:14px;font-weight:500;color:var(--text);"></span>
       <button onclick="closeVideoDrawer()" style="background:var(--sand-dark);border:none;border-radius:50%;width:28px;height:28px;font-size:16px;line-height:1;cursor:pointer;color:var(--text-mid);display:flex;align-items:center;justify-content:center;">✕</button>
     </div>
     <div style="width:36px;height:4px;background:var(--sand-dark);border-radius:2px;margin:0 auto 16px;"></div>
     <video id="jacuzzi-video" controls playsinline style="width:100%;max-height:70vh;background:#000;">
-      <source src="jacuzzi.mp4" type="video/mp4">
+      <source id="jacuzzi-video-src" src="" type="video/mp4">
     </video>
   </div>
 
   <script>
-    function openVideoDrawer(){
+    var videoSrcs={
+      'jacuzzi':'jacuzzi.mp4',
+      'troubleshooting':'jacuzzi-troubleshooting.mp4'
+    };
+    var videoTitleIds={
+      'jacuzzi':'t-vid-jacuzzi',
+      'troubleshooting':'t-vid-jacuzzi-trouble'
+    };
+    function openVideoDrawer(which){
       var overlay=document.getElementById('video-drawer-overlay');
       var drawer=document.getElementById('video-drawer');
+      var vid=document.getElementById('jacuzzi-video');
+      var src=document.getElementById('jacuzzi-video-src');
+      var titleEl=document.getElementById('video-drawer-title');
+      var srcTitleEl=document.getElementById(videoTitleIds[which]);
+      titleEl.textContent=srcTitleEl ? srcTitleEl.textContent : '';
+      src.src=videoSrcs[which];
+      vid.load();
       overlay.style.display='block';
+      overlay.style.opacity='0';
       drawer.style.display='block';
       requestAnimationFrame(function(){
         requestAnimationFrame(function(){
@@ -612,7 +636,7 @@ const translations = {
     't-emergency-label':'Emergency trades','t-plumber':'Plumber','t-electrician':'Electrician',
     't-spa-title':'Spa &amp; Garden',
     't-spa-intro':'The spa is accessed via the <strong>wooden walkway to the rear</strong>. The key hangs in the kitchen above the island countertop. Please keep it inside the property and lock the spa when not in use — especially important for the safety of children.',
-    't-vid-jacuzzi':'How to use the jacuzzi',
+    't-vid-jacuzzi':'How to use the jacuzzi','t-vid-jacuzzi-trouble':'Troubleshooting the jacuzzi','t-vid-tap':'Tap to watch','t-vid-tap-2':'Tap to watch',
     't-jacuzzi-rules':'Jacuzzi rules',
     't-spa1':'Maximum 6 people','t-spa2':'Not for use by anyone under 16',
     't-spa3-warn':'🚿 <strong>Please shower thoroughly before entering</strong> — sand gets into the filter and can break the jacuzzi, requiring a full water change.',
@@ -702,7 +726,7 @@ const translations = {
     't-emergency-label':'Dépannage','t-plumber':'Plombier','t-electrician':'Électricien',
     't-spa-title':'Spa &amp; Jardin',
     't-spa-intro':'Le spa est accessible via la <strong>passerelle en bois à l\'arrière</strong>. La clé est accrochée dans la cuisine au-dessus du plan de travail. Laissez-la à l\'intérieur et fermez le spa à clé — important pour la sécurité des enfants.',
-    't-vid-jacuzzi':'Comment utiliser le jacuzzi',
+    't-vid-jacuzzi':'Comment utiliser le jacuzzi','t-vid-jacuzzi-trouble':'Problèmes avec le jacuzzi','t-vid-tap':'Appuyer pour regarder','t-vid-tap-2':'Appuyer pour regarder',
     't-jacuzzi-rules':'Règles du jacuzzi',
     't-spa1':'6 personnes maximum',
     't-spa3-warn':'🚿 <strong>Merci de bien vous doucher avant d\'entrer</strong> — le sable bouche le filtre et peut casser le jacuzzi',
