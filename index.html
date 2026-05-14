@@ -114,19 +114,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text);
 .sticky-subnav button{font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:0.06em;padding:4px 10px;border-radius:12px;border:1px solid rgba(255,255,255,0.25);background:transparent;color:rgba(255,255,255,0.65);cursor:pointer;white-space:nowrap;}
 .sticky-subnav button:hover{background:rgba(255,255,255,0.12);color:#fff;}
 .sticky-villa{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:#fff;letter-spacing:0.08em;}
-.sticky-lang{display:flex;gap:6px;}
-.sticky-lang button{font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:0.08em;padding:4px 10px;border-radius:12px;border:1px solid rgba(255,255,255,0.3);background:transparent;color:rgba(255,255,255,0.7);cursor:pointer;}
-.sticky-lang button.active{background:rgba(255,255,255,0.15);color:#fff;}
 </style>
 </head>
 <body>
 <div class="sticky-header" id="sticky-header">
   <div style="display:flex;align-items:center;gap:10px;min-width:0;">
     <span class="sticky-villa">Villa Frégoire</span>
-    <div class="sticky-lang">
-      <button onclick="setLang('en')" id="sticky-en" class="active">🇬🇧</button>
-      <button onclick="setLang('fr')" id="sticky-fr">🇫🇷</button>
-    </div>
+
   </div>
   <div class="sticky-subnav" id="sticky-subnav"></div>
 </div>
@@ -831,11 +825,7 @@ function setLang(lang){
   const t = translations[lang];
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.lang-btn')[lang==='en'?0:1].classList.add('active');
-  // sync sticky
-  const se = document.getElementById('sticky-en');
-  const sf = document.getElementById('sticky-fr');
-  if(se) se.classList.toggle('active', lang==='en');
-  if(sf) sf.classList.toggle('active', lang==='fr');
+
   for (const [id, val] of Object.entries(t)) {
     if (id === 'nav') {
       // no-op, bottom nav uses individual IDs
