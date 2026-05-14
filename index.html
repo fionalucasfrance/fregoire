@@ -331,12 +331,53 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text);
   <div class="sec-line"></div>
   <div class="highlight" id="t-spa-intro">The spa is accessed via the <strong>wooden walkway to the rear</strong>. The key hangs in the kitchen above the island countertop. Please keep it inside the property and lock the spa when not in use — especially important for the safety of children.</div>
 
-  <div class="video-placeholder" style="flex-direction:column;align-items:flex-start;padding:0;background:none;">
-    <div class="video-title" id="t-vid-jacuzzi" style="padding:16px 20px 0;">How to use the jacuzzi</div>
-    <video controls playsinline style="width:100%;max-width:315px;border-radius:12px;margin:10px auto 0;display:block;">
+  <div class="video-placeholder" onclick="openVideoDrawer()" style="cursor:pointer;">
+    <div class="video-icon"><div class="video-play"></div></div>
+    <div class="video-text-wrap">
+      <div class="video-title" id="t-vid-jacuzzi">How to use the jacuzzi</div>
+      <div class="video-sub">Tap to watch</div>
+    </div>
+  </div>
+
+  <!-- Video Drawer -->
+  <div id="video-drawer-overlay" onclick="closeVideoDrawer()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;transition:opacity 0.3s;"></div>
+  <div id="video-drawer" style="display:none;position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:480px;background:#fff;border-radius:20px 20px 0 0;z-index:1001;transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);padding:0 0 32px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;">
+      <span style="font-size:14px;font-weight:500;color:var(--text);" id="t-vid-jacuzzi-drawer">How to use the jacuzzi</span>
+      <button onclick="closeVideoDrawer()" style="background:var(--sand-dark);border:none;border-radius:50%;width:28px;height:28px;font-size:16px;line-height:1;cursor:pointer;color:var(--text-mid);display:flex;align-items:center;justify-content:center;">✕</button>
+    </div>
+    <div style="width:36px;height:4px;background:var(--sand-dark);border-radius:2px;margin:0 auto 16px;"></div>
+    <video id="jacuzzi-video" controls playsinline style="width:100%;max-height:70vh;background:#000;">
       <source src="jacuzzi.mp4" type="video/mp4">
     </video>
   </div>
+
+  <script>
+    function openVideoDrawer(){
+      var overlay=document.getElementById('video-drawer-overlay');
+      var drawer=document.getElementById('video-drawer');
+      overlay.style.display='block';
+      drawer.style.display='block';
+      requestAnimationFrame(function(){
+        requestAnimationFrame(function(){
+          drawer.style.transform='translateX(-50%) translateY(0)';
+          overlay.style.opacity='1';
+        });
+      });
+    }
+    function closeVideoDrawer(){
+      var overlay=document.getElementById('video-drawer-overlay');
+      var drawer=document.getElementById('video-drawer');
+      drawer.style.transform='translateX(-50%) translateY(100%)';
+      overlay.style.opacity='0';
+      var vid=document.getElementById('jacuzzi-video');
+      if(vid) vid.pause();
+      setTimeout(function(){
+        drawer.style.display='none';
+        overlay.style.display='none';
+      },350);
+    }
+  </script>
 
   <div class="sub-title" id="t-jacuzzi-rules">Jacuzzi rules</div>
   <div class="rule"><div class="rule-dot"></div><div id="t-spa1">Maximum 6 people</div></div>
